@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154920981-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-154920981-1');
+    </script>
+
+    
+    <link rel="shortcut icon" href="{%  static 'img/favicon.ico' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SCARCITY</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+       
+
+    
+    
+    {% load static %}
+    <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+    
+    
+    <header>
+        <a href=# class="logo"> SCARCITY. </a>
+    </header>
+    <section class="main">
+        <div class="texte">
+            <span class="titre hide-mobile">SCARCITY.</span>
+
+            <form  method="POST">
+                    
+                    A simple tool to raise awareness of climate change!   
+                    Select your 
+                    {% csrf_token %}            
+                     
+                    Select your {{ form.country}} and a {{ form.year}} to find out which plants will no longer grow there.
+                    
+
+                   
+                    <datalist id="country">
+                      {% for a_country in countriesList %}
+                        <option value="{{ a_country}}">
+                      {% endfor %}
+                    </datalist>
+            <br>
+            <br>
+            <button type="submit"><span> Let's go</span></button>
+            
+                
+        
+        </form>
+        {% if message %}
+                <div class="notification {{ message_class }}">{{ message }}</div>
+                
+
+            {% endif %}
+        </div> 
+        {% load static%}
+        <img class="hero" src="{% static 'img/hero.svg'%}" alt="hero">
+             
+                
+        
+
+
+    </section>
+
+    
+</body>
+</html>

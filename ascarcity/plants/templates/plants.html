@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154920981-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-154920981-1');
+    </script>
+
+    <link rel="shortcut icon" href="{%  static 'img/favicon.ico' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SCARCICTY</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    {% load static %}
+    <link href="{% static 'css/plants.css' %}" rel="stylesheet">
+</head>
+<body>
+
+    
+    
+    <header>
+        <a href="." class="logo"> SCARCICTY. </a>
+        <form  method="POST">
+          {% csrf_token %}            
+                     
+                    Select your {{ form.country}} and a {{ form.year}} to find out which plants will no longer grow there.
+                    
+
+                   
+                    <datalist id="country">
+                      {% for a_country in countriesList %}
+                        <option value="{{ a_country}}">
+                      {% endfor %}
+                    </datalist>
+
+                   
+            
+
+            <button type="submit"><span>&#8594;</span></button>
+            {% if message %}
+                <div class="notification {{ message_class }}">{{ message }}</div>
+                       
+
+            {% endif %}
+        </form>
+        
+    </header>
+    <section class="main">
+    
+
+        <div class="tabs">
+            <ul>
+                <li class="one"><a href="#">Plants</a></li>
+                <li class="two"><a href="#">Graphs</a></li>
+            <hr />
+            </ul>
+
+        </div>
+        <div class="container">
+            <div class="plantes">
+                <div class="plantes-haut">
+                  
+                  <div class="avertissement">
+                    {% load static%}
+                    <img class="personne" src="{% static  'img/Standing.svg' %}" alt="">
+                    <p><span>Disclaimer :</span>These calculations are made only on the basis of temperature and precipitation on a small sample. They do not take into account other parameters.The data were obtained using the api of <a href="https://trefle.io/" taget="_blank"> trefle.io</a> and <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/902061-climate-data-api" taget="_blank">Worldbank</a></p>
+                  
+                    </div>
+                  
+                </div>
+                <div class="plantes-bas">
+                      {% if plants_data|length == 0 %}
+                     <div class="no-results">
+                          {% load static%}
+                          <img src="{% static 'img/sad_plant.png' %}" alt="">
+                          <span>No Result found</span>
+                      </div>
+                      {% endif %}
+                      {% if  plants_data|length != 0 %}
+                      <div class="cards">
+                        {% for plant in plants_data%}
+                        <div class="card card--1">
+                          <div class="card__img"></div>
+                          
+                             <div class="card__img--hover">
+
+                                {% if plant.isImage%}
+                                  <img src="{{plant.image}}">
+                                {% endif %}
+                                {% if  not plant.isImage%}
+                                  {% load static%}
+                                  <img src="{% static 'img/image-unavailable.png' %}">
+                                {% endif %}
+
+                          </div>
+
+                           
+                          <div class="card__info">
+                            <span class="card__category"> Scientific name</span>
+                            <h3 class="card__title">{{plant.scientific_name}}</h3>
+                            <span class="card__category"> Common name</span>
+                             <h3 class="card__title">{{plant.common_name}}</h3>
+                            
+                          </div>
+                        </div>
+                        {% endfor%}
+                       
+                          
+                      </div>
+                      {% endif %}
+                    
+    
+                </div>
+            </div>
+            <div class="graphes">
+              <div class="temperature graphe">
+                <div class="line-chart temp">
+                  <canvas id="chart-temperature"></canvas>
+                </div>
+
+                
+              </div>
+              <div class="precipitation graphe">
+                <div class="line-chart  precip">
+                  <canvas id="chart-precipitations"></canvas>
+                </div>
+                  
+              
+              </div>
+            </div>
+    
+            
+        </div>
+        
+
+
+    </section>
+
+    <footer>
+        <span id="text"> <span id="coeur">&#9829;</span> Donate to save the environment:</span>
+        <ul class="charities owl-carousel">
+            
+            {% load static%}
+            <li><a href="https://www.greenpeace.org/international/act/donate" target="_blank"> <img src="{% static 'img/1.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://act.350.org/donate/build/" target="_blank"> <img src="{% static 'img/2.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://www.sierraclubfoundation.org/ways-give" target="_blank"> <img src="{% static 'img/3.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://act.nrdc.org/donate/donate-one-time/" target="_blank"> <img src="{% static 'img/4.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://earthdaynetwork.salsalabs.org/maindonationform/index.html" target="_blank" > <img src="{% static 'img/5.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://www.rainforest-alliance.org/international-donations" target="_blank" > <img src="{% static 'img/6.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://secure.ucsusa.org/onlineactions/dR5QqmX2uUCLCFD1KkVEzg2?MS=waystogive" target="_blank" > <img src="{% static 'img/7.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://membership.onlineaction.org/site/Donation2?df_id=19095&19095.donation=form1&addl_info=nav-button&conversion_pg=www.edf.org%2F" target="_blank" > <img src="{% static 'img/8.png' %}" alt=""></a></li>
+            {% load static%}
+            <li><a href="https://support.nature.org/site/Donation2?df_id=10420&10420.donation=form1" target="_blank" > <img src="{% static 'img/9.png' %}" alt=""></a></li>
+            
+        </ul>
+    </footer>
+{% load static%}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+{% load static%}
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+
+{% load static%}
+<script src="{% static 'js/Chart.min.js' %}"></script>
+<script> var graphs_data ={'2020':{{ graphs_data.2020 }},'2040':{{ graphs_data.2040 }},'2060':{{ graphs_data.2060 }},'2080':{{ graphs_data.2080 }},'country':"{{ graphs_data.country}}"} ;
+
+</script>
+{% load static %}
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
